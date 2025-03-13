@@ -17,7 +17,8 @@ target 'iOSDemosOC' do
   use_frameworks!
 
   # Pods for iOSDemosOC
-#  pod 'ESTabBarController-swift' # https://github.com/eggswift/ESTabBarController
+  # https://github.com/eggswift/ESTabBarController
+  pod 'ESTabBarController-swift', :git => "https://github.com/yizhouios/ESTabBarController.git", :branch => "master"
   pod 'lottie-ios', '~> 4.5.1' # https://github.com/airbnb/lottie-ios
   pod 'SDWebImage', '~> 5.21.0' # https://github.com/SDWebImage/SDWebImage
 

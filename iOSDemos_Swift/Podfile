@@ -1,0 +1,18 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '15.0'
+
+target 'iOSDemos_Swift' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for iOSDemos_Swift
+  # https://github.com/eggswift/ESTabBarController
+  pod 'ESTabBarController-swift', :git => "https://github.com/yizhouios/ESTabBarController.git", :branch => "master"
+  pod 'lottie-ios', '~> 4.5.1' # https://github.com/airbnb/lottie-ios
+  pod 'QMUIKit', '~> 4.8.0' # https://github.com/Tencent/QMUI_iOS
+
+  # 图片加载库
+  pod 'SDWebImage', '~> 5.21.0' # https://github.com/SDWebImage/SDWebImage
+  
+  
+end
