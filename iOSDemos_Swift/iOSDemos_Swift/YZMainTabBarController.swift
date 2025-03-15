@@ -6,16 +6,17 @@
 //
 
 import ESTabBarController_swift
+import QMUIKit
 
 class YZMainTabBarController: ESTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let v1 = UIViewController()
-        let v2 = UIViewController()
-        let v3 = UIViewController()
-        let v4 = UIViewController()
-        let v5 = UIViewController()
+        let v1 = QMUINavigationController(rootViewController: YZHomeViewController())
+        let v2 = QMUINavigationController(rootViewController: UIViewController())
+        let v3 = QMUINavigationController(rootViewController: UIViewController())
+        let v4 = QMUINavigationController(rootViewController: UIViewController())
+        let v5 = QMUINavigationController(rootViewController: UIViewController())
         
         v1.tabBarItem = ESTabBarItem.init(title: "Home", image: UIImage(named: "home"), selectedImage: UIImage(named: "home_1"))
         v2.tabBarItem = ESTabBarItem.init(title: "Find", image: UIImage(named: "find"), selectedImage: UIImage(named: "find_1"))
