@@ -84,6 +84,12 @@ extension YZInterviewViewController: QMUITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let url = datas[indexPath.section]["items"].arrayValue[indexPath.row]["url"].string
+        
+        let webVc = YZWebViewController()
+        webVc.urlString = url
+        navigationController?.pushViewController(webVc, animated: true)
     }
 }
 
