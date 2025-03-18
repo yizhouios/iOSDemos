@@ -132,3 +132,14 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
         }
     }
 }
+
+// MARK: - Handle NavBack Btn Click
+extension YZWebViewController {
+    override func shouldPopViewController(byBackButtonOrPopGesture byPopGesture: Bool) -> Bool {
+        if webView.canGoBack {
+            webView.goBack()
+            return false
+        }
+        return true
+    }
+}

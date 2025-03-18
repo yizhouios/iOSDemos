@@ -12,11 +12,11 @@ class YZMainTabBarController: ESTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let v1 = QMUINavigationController(rootViewController: YZInterviewViewController())
-        let v2 = QMUINavigationController(rootViewController: UIViewController())
-        let v3 = QMUINavigationController(rootViewController: UIViewController())
-        let v4 = QMUINavigationController(rootViewController: UIViewController())
-        let v5 = QMUINavigationController(rootViewController: UIViewController())
+        let v1 = YZNavigationController(rootViewController: YZInterviewViewController())
+        let v2 = YZNavigationController(rootViewController: UIViewController())
+        let v3 = YZNavigationController(rootViewController: UIViewController())
+        let v4 = YZNavigationController(rootViewController: UIViewController())
+        let v5 = YZNavigationController(rootViewController: UIViewController())
         
         v1.tabBarItem = ESTabBarItem.init(title: "面试题", image: UIImage(named: "home"), selectedImage: UIImage(named: "home_1"))
         v2.tabBarItem = ESTabBarItem.init(title: "Find", image: UIImage(named: "find"), selectedImage: UIImage(named: "find_1"))
