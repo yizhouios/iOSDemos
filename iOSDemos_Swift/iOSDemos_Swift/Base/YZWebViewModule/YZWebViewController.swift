@@ -189,14 +189,15 @@ extension YZWebViewController {
         moreVc.showFromBottom()
     }
     
+    // 在浏览器打开
     func openInBrowser() {
         if let urlString = urlString, let url = URL.init(string: urlString), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
+    // 复制网页链接
     func copyUrl() {
-        // 获取网页内容（例如URL或特定文本）
         let contentToCopy = webView.url?.absoluteString ?? ""
         UIPasteboard.general.string = contentToCopy
         QMUITips.showSucceed("已复制")
