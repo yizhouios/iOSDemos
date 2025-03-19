@@ -8,6 +8,7 @@
 import UIKit
 @preconcurrency import WebKit
 import KVOController
+import QMUIKit
 
 class YZWebViewController: UIViewController, WKNavigationDelegate {
     
@@ -16,6 +17,10 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     var progressView: UIProgressView!
     var urlString: String?
+    lazy var moreButton: UIBarButtonItem = {
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(showSheet))
+        return barButton
+    }()
     
     // 添加一个上下文以便在观察者移除时使用
     private var estimatedProgressContext = 0
@@ -75,6 +80,17 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
     // 页面开始加载时调用
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         progressView.progress = 0.1
+        
+        if webView.canGoBack {
+            // 先让返回按钮能与 leftBarButtonItems 共存
+            navigationItem.leftItemsSupplementBackButton = true
+            navigationItem.leftBarButtonItems = [
+                UIBarButtonItem.qmui_close(withTarget: self, action: #selector(closePage))
+            ]
+        } else {
+            navigationItem.leftBarButtonItems = nil
+            navigationItem.leftItemsSupplementBackButton = false
+        }
     }
     
     // 页面加载进度更新时调用
@@ -91,6 +107,9 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
         }, completion: { _ in
             self.progressView.setProgress(0, animated: false)
         })
+        
+        // 导航栏添加3个点按钮
+        navigationItem.rightBarButtonItem = moreButton
     }
     
     // 页面加载失败时调用
@@ -131,6 +150,10 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
             }
         }
     }
+    
+    @objc func closePage() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - Handle NavBack Btn Click
@@ -141,5 +164,41 @@ extension YZWebViewController {
             return false
         }
         return true
+    }
+}
+
+// MARK: - Actions
+extension YZWebViewController {
+    @objc func showSheet() {
+        let moreVc = QMUIMoreOperationController()
+        moreVc.contentBackgroundColor = .white
+        moreVc.cancelButtonBackgroundColor = .white
+        // 图标来自iconFont：https://www.iconfont.cn/collections/detail?spm=a313x.search_index.0.da5a778a4.6fc13a816jekRu&cid=748
+        moreVc.items = [
+            [
+                QMUIMoreOperationItemView.init(image: .init(named: "yzwebview_copy")?.qmui_imageResized(inLimitedSize: CGSizeMake(30, 30)), title: "复制", handler: { [weak self] moreVc, itemView in
+                    self?.copyUrl()
+                    moreVc.hideToBottom()
+                }),
+                QMUIMoreOperationItemView.init(image: .init(named: "yzwebview_browser")?.qmui_imageResized(inLimitedSize: CGSizeMake(30, 30)), title: "在浏览器中打开", handler: { [weak self] moreVc, itemView in
+                    self?.openInBrowser()
+                    moreVc.hideToBottom()
+                })
+            ]
+        ]
+        moreVc.showFromBottom()
+    }
+    
+    func openInBrowser() {
+        if let urlString = urlString, let url = URL.init(string: urlString), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func copyUrl() {
+        // 获取网页内容（例如URL或特定文本）
+        let contentToCopy = webView.url?.absoluteString ?? ""
+        UIPasteboard.general.string = contentToCopy
+        QMUITips.showSucceed("已复制")
     }
 }
