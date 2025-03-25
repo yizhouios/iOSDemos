@@ -5,11 +5,10 @@
 //  Created by yizhou on 2025/3/15.
 //
 
-import QMUIKit
 import SnapKit
 import SwiftyJSON
 
-class YZInterviewViewController: UIViewController {
+class YZInterviewViewController: YZBaseViewController {
     let datas: JSON = [
         [
             "title": "iOS面试题",
@@ -21,13 +20,17 @@ class YZInterviewViewController: UIViewController {
                 [
                     "title": "《招聘一个靠谱的 iOS》—参考答案（下）",
                     "url": "https://github.com/ChenYilong/iOSInterviewQuestions/blob/master/01%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88/%E3%80%8A%E6%8B%9B%E8%81%98%E4%B8%80%E4%B8%AA%E9%9D%A0%E8%B0%B1%E7%9A%84iOS%E3%80%8B%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8F%82%E8%80%83%E7%AD%94%E6%A1%88%EF%BC%88%E4%B8%8B%EF%BC%89.md"
+                ],
+                [
+                    "title": "《招聘一个靠谱的 iOS》—参考答案（下）",
+                    "url": "https://www.baidu.com"
                 ]
             ]
         ]
     ]
     
-    lazy var tableView: QMUITableView = {
-        let tableView = QMUITableView()
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
@@ -51,7 +54,7 @@ class YZInterviewViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension YZInterviewViewController: QMUITableViewDataSource {
+extension YZInterviewViewController: UITableViewDataSource, UITableViewDelegate {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return datas.count
     }
@@ -93,11 +96,7 @@ extension YZInterviewViewController: QMUITableViewDataSource {
         
         let webVc = YZWebViewController()
         webVc.urlString = url
+        
         navigationController?.pushViewController(webVc, animated: true)
     }
-}
-
-// MARK: - UITableViewDataSource
-extension YZInterviewViewController: QMUITableViewDelegate {
-    
 }

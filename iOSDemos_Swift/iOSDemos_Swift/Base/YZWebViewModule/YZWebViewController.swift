@@ -8,12 +8,11 @@
 import UIKit
 @preconcurrency import WebKit
 import KVOController
-import QMUIKit
+import SnapKit
 
-class YZWebViewController: UIViewController, WKNavigationDelegate {
+class YZWebViewController: YZBaseViewController, WKNavigationDelegate {
     
     // MARK: - Properties
-    
     var webView: WKWebView!
     var progressView: UIProgressView!
     var urlString: String?
@@ -29,35 +28,25 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
         // 初始化 WKWebView
         webView = WKWebView(frame: view.bounds)
         webView.navigationDelegate = self
         view.addSubview(webView)
-        
-        // 添加约束（Auto Layout）
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
         // 初始化 UIProgressView
         progressView = UIProgressView(progressViewStyle: .default)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(progressView)
         
-        // 添加进度条约束
-        NSLayoutConstraint.activate([
-            progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            progressView.heightAnchor.constraint(equalToConstant: 4)
-        ])
-        
+        webView.snp.makeConstraints {
+//            $0.top.equalTo(self.gk_navigationBar.snp.bottom)
+            $0.top.left.right.bottom.equalToSuperview()
+        }
+        progressView.snp.makeConstraints {
+            $0.top.equalTo(self.gk_navigationBar.snp.bottom).offset(4)
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(4)
+        }
+                
         // 添加观察者
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: [.new], context: &estimatedProgressContext)
         
@@ -73,6 +62,8 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
             let request = URLRequest(url: url)
             webView.load(request)
         }
+        
+        webView.backgroundColor = .red
     }
     
     // MARK: - WKNavigationDelegate
@@ -81,16 +72,16 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         progressView.progress = 0.1
         
-        if webView.canGoBack {
-            // 先让返回按钮能与 leftBarButtonItems 共存
-            navigationItem.leftItemsSupplementBackButton = true
-            navigationItem.leftBarButtonItems = [
-                UIBarButtonItem.qmui_close(withTarget: self, action: #selector(closePage))
-            ]
-        } else {
-            navigationItem.leftBarButtonItems = nil
-            navigationItem.leftItemsSupplementBackButton = false
-        }
+//        if webView.canGoBack {
+//            // 先让返回按钮能与 leftBarButtonItems 共存
+//            navigationItem.leftItemsSupplementBackButton = true
+//            navigationItem.leftBarButtonItems = [
+////                UIBarButtonItem.qmui_close(withTarget: self, action: #selector(closePage))
+//            ]
+//        } else {
+//            navigationItem.leftBarButtonItems = nil
+//            navigationItem.leftItemsSupplementBackButton = false
+//        }
     }
     
     // 页面加载进度更新时调用
@@ -157,49 +148,49 @@ class YZWebViewController: UIViewController, WKNavigationDelegate {
 }
 
 // MARK: - Handle NavBack Btn Click
-extension YZWebViewController {
-    override func shouldPopViewController(byBackButtonOrPopGesture byPopGesture: Bool) -> Bool {
-        if webView.canGoBack {
-            webView.goBack()
-            return false
-        }
-        return true
-    }
-}
-
-// MARK: - Actions
+//extension YZWebViewController {
+//    override func shouldPopViewController(byBackButtonOrPopGesture byPopGesture: Bool) -> Bool {
+//        if webView.canGoBack {
+//            webView.goBack()
+//            return false
+//        }
+//        return true
+//    }
+//}
+//
+//// MARK: - Actions
 extension YZWebViewController {
     @objc func showSheet() {
-        let moreVc = QMUIMoreOperationController()
-        moreVc.contentBackgroundColor = .white
-        moreVc.cancelButtonBackgroundColor = .white
-        // 图标来自iconFont：https://www.iconfont.cn/collections/detail?spm=a313x.search_index.0.da5a778a4.6fc13a816jekRu&cid=748
-        moreVc.items = [
-            [
-                QMUIMoreOperationItemView.init(image: .init(named: "yzwebview_copy")?.qmui_imageResized(inLimitedSize: CGSizeMake(30, 30)), title: "复制", handler: { [weak self] moreVc, itemView in
-                    self?.copyUrl()
-                    moreVc.hideToBottom()
-                }),
-                QMUIMoreOperationItemView.init(image: .init(named: "yzwebview_browser")?.qmui_imageResized(inLimitedSize: CGSizeMake(30, 30)), title: "在浏览器中打开", handler: { [weak self] moreVc, itemView in
-                    self?.openInBrowser()
-                    moreVc.hideToBottom()
-                })
-            ]
-        ]
-        moreVc.showFromBottom()
+//        let moreVc = QMUIMoreOperationController()
+//        moreVc.contentBackgroundColor = .white
+//        moreVc.cancelButtonBackgroundColor = .white
+//        // 图标来自iconFont：https://www.iconfont.cn/collections/detail?spm=a313x.search_index.0.da5a778a4.6fc13a816jekRu&cid=748
+//        moreVc.items = [
+//            [
+//                QMUIMoreOperationItemView.init(image: .init(named: "yzwebview_copy")?.qmui_imageResized(inLimitedSize: CGSizeMake(30, 30)), title: "复制", handler: { [weak self] moreVc, itemView in
+//                    self?.copyUrl()
+//                    moreVc.hideToBottom()
+//                }),
+//                QMUIMoreOperationItemView.init(image: .init(named: "yzwebview_browser")?.qmui_imageResized(inLimitedSize: CGSizeMake(30, 30)), title: "在浏览器中打开", handler: { [weak self] moreVc, itemView in
+//                    self?.openInBrowser()
+//                    moreVc.hideToBottom()
+//                })
+//            ]
+//        ]
+//        moreVc.showFromBottom()
     }
-    
-    // 在浏览器打开
-    func openInBrowser() {
-        if let urlString = urlString, let url = URL.init(string: urlString), UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    // 复制网页链接
-    func copyUrl() {
-        let contentToCopy = webView.url?.absoluteString ?? ""
-        UIPasteboard.general.string = contentToCopy
-        QMUITips.showSucceed("已复制")
-    }
+//    
+//    // 在浏览器打开
+//    func openInBrowser() {
+//        if let urlString = urlString, let url = URL.init(string: urlString), UIApplication.shared.canOpenURL(url) {
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
+//    }
+//    
+//    // 复制网页链接
+//    func copyUrl() {
+//        let contentToCopy = webView.url?.absoluteString ?? ""
+//        UIPasteboard.general.string = contentToCopy
+//        QMUITips.showSucceed("已复制")
+//    }
 }

@@ -11,7 +11,7 @@ target 'iOSDemos_Swift' do
   # https://github.com/airbnb/lottie-ios
   pod 'lottie-ios', '~> 4.5.1'
   # https://github.com/Tencent/QMUI_iOS
-  pod 'QMUIKit', '~> 4.8.0'
+#  pod 'QMUIKit', '~> 4.8.0'
   # # https://github.com/SDWebImage/SDWebImage
   pod 'SDWebImage', '~> 5.21.0'
   # https://github.com/SnapKit/SnapKit
@@ -22,6 +22,6 @@ target 'iOSDemos_Swift' do
   # https://github.com/facebookarchive/KVOController
   pod 'KVOController', :git => "https://github.com/yizhouios/KVOController.git", :branch => "master"
   # https://github.com/QuintGao/GKNavigationBarSwift
-  pod 'GKNavigationBarSwift', '~> 1.6.7'
+#  pod 'GKNavigationBarSwift', '~> 1.6.7'
   
 end
