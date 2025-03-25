@@ -28,7 +28,7 @@ class YZWebViewController: YZBaseViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // 初始化 WKWebView
         webView = WKWebView(frame: view.bounds)
         webView.navigationDelegate = self
@@ -38,11 +38,10 @@ class YZWebViewController: YZBaseViewController, WKNavigationDelegate {
         view.addSubview(progressView)
         
         webView.snp.makeConstraints {
-//            $0.top.equalTo(self.gk_navigationBar.snp.bottom)
-            $0.top.left.right.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
         progressView.snp.makeConstraints {
-            $0.top.equalTo(self.gk_navigationBar.snp.bottom).offset(4)
+            $0.top.equalTo(webView).offset(4)
             $0.left.right.equalToSuperview()
             $0.height.equalTo(4)
         }
