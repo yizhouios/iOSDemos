@@ -96,7 +96,7 @@ extension YZInterviewViewController: UITableViewDataSource, UITableViewDelegate 
         
         let webVc = YZWebViewController()
         webVc.urlString = url
-        
+        webVc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(webVc, animated: true)
     }
 }

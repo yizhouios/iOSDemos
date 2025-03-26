@@ -15,6 +15,7 @@ class YZWebViewController: YZBaseViewController, WKNavigationDelegate {
     // MARK: - Properties
     var webView: WKWebView!
     var progressView: UIProgressView!
+    var progressViewConstraint: Constraint?
     var urlString: String?
     lazy var moreButton: UIBarButtonItem = {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(showSheet))
@@ -35,17 +36,21 @@ class YZWebViewController: YZBaseViewController, WKNavigationDelegate {
         view.addSubview(webView)
         // 初始化 UIProgressView
         progressView = UIProgressView(progressViewStyle: .default)
+        progressView.progressTintColor = .blue
         view.addSubview(progressView)
         
         webView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        var topSafeArea: CGFloat = 0
+        
         progressView.snp.makeConstraints {
-            $0.top.equalTo(webView).offset(4)
+            progressViewConstraint = $0.top.equalToSuperview().constraint
             $0.left.right.equalToSuperview()
             $0.height.equalTo(4)
         }
-                
+
         // 添加观察者
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: [.new], context: &estimatedProgressContext)
         
@@ -61,8 +66,13 @@ class YZWebViewController: YZBaseViewController, WKNavigationDelegate {
             let request = URLRequest(url: url)
             webView.load(request)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        webView.backgroundColor = .red
+        // 更新progressView的顶部约束
+        progressViewConstraint?.update(offset: view.safeAreaInsets.top)
     }
     
     // MARK: - WKNavigationDelegate
