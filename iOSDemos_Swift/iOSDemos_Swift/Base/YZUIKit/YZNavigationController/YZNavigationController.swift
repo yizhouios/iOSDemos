@@ -48,9 +48,11 @@ extension YZNavigationController {
            let view = interactivePopGest.view,
            let gestureRecognizers = view.gestureRecognizers,
            !gestureRecognizers.contains(fd_fullscreenPopGestureRecognizer) {
+            
+            // 将自定义手势识别器添加到系统边缘轻扫手势的原绑定视图上。
             view.addGestureRecognizer(fd_fullscreenPopGestureRecognizer)
             
-            // Forward the gesture events to the private handler of the onboard gesture recognizer.
+            // 将手势事件交由系统原生手势识别器的内部方法处理。
             if let internalTargets = interactivePopGestureRecognizer?.value(forKey: "targets") as? [AnyObject],
                let firstTarget = internalTargets.first,
                let internalTarget = firstTarget.value(forKey: "target") {
@@ -59,6 +61,9 @@ extension YZNavigationController {
                 fd_fullscreenPopGestureRecognizer.delegate = fd_popGestureRecognizerDelegate
                 fd_fullscreenPopGestureRecognizer.addTarget(internalTarget, action: internalAction)
             }
+            
+            // 禁用系统原生手势识别器
+            interactivePopGest.isEnabled = false
         }
         
         if !self.viewControllers.contains(viewController) {
