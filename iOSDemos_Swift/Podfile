@@ -6,22 +6,17 @@ target 'iOSDemos_Swift' do
   use_frameworks!
 
   # Pods for iOSDemos_Swift
-  # https://github.com/eggswift/ESTabBarController
-  pod 'ESTabBarController-swift', :git => "https://github.com/yizhouios/ESTabBarController.git", :branch => "master"
-  # https://github.com/airbnb/lottie-ios
-  pod 'lottie-ios', '~> 4.5.1'
-  # https://github.com/Tencent/QMUI_iOS
-#  pod 'QMUIKit', '~> 4.8.0'
-  # # https://github.com/SDWebImage/SDWebImage
-  pod 'SDWebImage', '~> 5.21.0'
-  # https://github.com/SnapKit/SnapKit
-  pod 'SnapKit', '~> 5.7.1'
-  # https://github.com/SwiftyJSON/SwiftyJSON
-  pod 'SwiftyJSON', '~> 5.0.2'
+  pod 'ESTabBarController-swift', :git => "https://github.com/yizhouios/ESTabBarController.git", :branch => "master" # https://github.com/eggswift/ESTabBarController
+  pod 'lottie-ios', '~> 4.5.1' # https://github.com/airbnb/lottie-ios
+#  pod 'QMUIKit', '~> 4.8.0' # https://github.com/Tencent/QMUI_iOS
+  pod 'SDWebImage', '~> 5.21.0' # # https://github.com/SDWebImage/SDWebImage
+  pod 'SnapKit', '~> 5.7.1' # https://github.com/SnapKit/SnapKit
+  pod 'SwiftyJSON', '~> 5.0.2' # https://github.com/SwiftyJSON/SwiftyJSON
   pod 'WKWebViewJavascriptBridge', '~> 1.2.2'
-  # https://github.com/facebookarchive/KVOController
-  pod 'KVOController', :git => "https://github.com/yizhouios/KVOController.git", :branch => "master"
-  # https://github.com/QuintGao/GKNavigationBarSwift
-#  pod 'GKNavigationBarSwift', '~> 1.6.7'
+  pod 'KVOController', :git => "https://github.com/yizhouios/KVOController.git", :branch => "master" # https://github.com/facebookarchive/KVOController
+  
+  # 导航控制器转场效果
+#  pod 'FDFullscreenPopGesture', '~> 1.1' # https://github.com/forkingdog/FDFullscreenPopGesture
+#  pod 'GKNavigationBarSwift', '~> 1.6.7' # https://github.com/QuintGao/GKNavigationBarSwift
   
 end
