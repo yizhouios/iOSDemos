@@ -30,6 +30,20 @@ class YZInterviewViewController: YZBaseViewController {
                     "title": "Navigating the iOS Interview",
                     "subTitle": "https://github.com/kodecocodes/ios-interview",
                     "url": "https://github.com/kodecocodes/ios-interview"
+                ],
+                [
+                    "title": "40+ iOS Interview Questions and Answers for Developers",
+                    "subTitle": "https://hackr.io/blog/ios-interview-questions-and-answers",
+                    "url": "https://hackr.io/blog/ios-interview-questions-and-answers"
+                ]
+            ]
+        ],
+        [
+            "items": [
+                [
+                    "title": "Grand Central Dispatch (GCD) and Dispatch Queues in Swift",
+                    "subTitle": "https://www.appcoda.com/grand-central-dispatch/",
+                    "url": "https://www.appcoda.com/grand-central-dispatch/"
                 ]
             ]
         ]
