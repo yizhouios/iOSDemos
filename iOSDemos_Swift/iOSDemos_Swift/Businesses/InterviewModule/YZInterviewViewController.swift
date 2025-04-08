@@ -59,7 +59,7 @@ class YZInterviewViewController: YZBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "面试题"
+        title = "面试文章"
         
         setupUI()
     }
