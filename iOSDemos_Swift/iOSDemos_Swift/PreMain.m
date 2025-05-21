@@ -8,5 +8,5 @@
 #import <Foundation/Foundation.h>
 
 __attribute__((constructor)) static void myConstructor(void) {
-    NSLog(@"This runs before main()");
+    NSLog(@"This runs before main(), thread: %@", NSThread.currentThread);
 }

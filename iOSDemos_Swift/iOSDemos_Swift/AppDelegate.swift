@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         didInitWindow()
         
+        test()
+        
         return true
     }
     
@@ -24,5 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow.init(frame: UIScreen.main.bounds)
         window?.rootViewController = YZMainTabBarController()
         window?.makeKeyAndVisible()
+    }
+}
+
+extension AppDelegate {
+    func test() {
+        TestKVOObject.testKVOClassName()
     }
 }
