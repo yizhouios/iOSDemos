@@ -49,22 +49,13 @@ class YZInterviewViewController: YZBaseViewController {
         ]
     ]
     
-    lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        return tableView
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "面试文章"
-        
-        setupUI()
     }
     
-    func setupUI() {
+    override func setupUI() {
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints { make in
@@ -86,12 +77,12 @@ class YZInterviewViewController: YZBaseViewController {
     }
 }
 
-// MARK: - UITableViewDataSource
-extension YZInterviewViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - 
+extension YZInterviewViewController {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return datas.count
     }
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return datas[section]["items"].count
     }
     
@@ -110,7 +101,7 @@ extension YZInterviewViewController: UITableViewDataSource, UITableViewDelegate 
         return CGFloat.leastNormalMagnitude
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell") ?? UITableViewCell.init(style: .subtitle, reuseIdentifier: "UITableViewCell")
 
         let dict: [String: Any] = datas[indexPath.section]["items"].arrayValue[indexPath.row].rawValue as! [String : Any]
