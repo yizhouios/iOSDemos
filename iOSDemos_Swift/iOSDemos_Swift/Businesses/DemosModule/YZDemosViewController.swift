@@ -8,7 +8,7 @@
 import SnapKit
 import SwiftyJSON
 
-class YZDemosViewController: YZBaseViewController {
+class YZDemosViewController: YZBaseTableViewController {
     var datas: [[String: Any]] = []
     
     override func viewDidLoad() {
@@ -18,10 +18,7 @@ class YZDemosViewController: YZBaseViewController {
     }
     
     override func setupUI() {
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        super.setupUI()
         
         makeData()
     }
@@ -33,7 +30,7 @@ extension YZDemosViewController {
         self.datas = [
             [
                 "title": "测试 RunLoop",
-                "className": NSStringFromClass(Demo1RunLoop.self)
+                "className": NSStringFromClass(DemoRunLoop.self)
             ],
             [
                 "title": "iOS响应链",
@@ -59,13 +56,6 @@ extension YZDemosViewController {
     public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 42.0
     }
-//    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return datas[section]["title"].string
-//    }
-    
-    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
-    }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell") ?? UITableViewCell.init(style: .subtitle, reuseIdentifier: "UITableViewCell")
@@ -83,8 +73,9 @@ extension YZDemosViewController {
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+
         let dict: [String: Any] = datas[indexPath.row]
         
         let className: String? = (dict["className"] as? String) ?? ""

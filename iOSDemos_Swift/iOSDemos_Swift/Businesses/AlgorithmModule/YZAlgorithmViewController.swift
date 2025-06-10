@@ -8,7 +8,7 @@
 import SnapKit
 import SwiftyJSON
 
-class YZAlgorithmViewController: YZBaseViewController {
+class YZAlgorithmViewController: YZBaseTableViewController {
     
     let datas: JSON = [
         [
@@ -70,10 +70,6 @@ extension YZAlgorithmViewController {
         return datas[section]["title"].string
     }
     
-    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
-    }
-    
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell") ?? UITableViewCell.init(style: .subtitle, reuseIdentifier: "UITableViewCell")
 
@@ -89,8 +85,9 @@ extension YZAlgorithmViewController {
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+        
         let url = datas[indexPath.section]["items"].arrayValue[indexPath.row]["url"].string ?? ""
         showWebPage(url: url)
     }

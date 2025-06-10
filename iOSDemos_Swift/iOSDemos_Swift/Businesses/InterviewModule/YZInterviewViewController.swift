@@ -8,7 +8,7 @@
 import SnapKit
 import SwiftyJSON
 
-class YZInterviewViewController: YZBaseViewController {
+class YZInterviewViewController: YZBaseTableViewController {
     let datas: JSON = [
         [
 //            "title": "iOS面试题",
@@ -56,11 +56,7 @@ class YZInterviewViewController: YZBaseViewController {
     }
     
     override func setupUI() {
-        view.addSubview(tableView)
-        
-        tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        super.setupUI()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "roadmap", style: .plain, target: self, action: #selector(goRoadmap))
     }
@@ -97,10 +93,6 @@ extension YZInterviewViewController {
         return datas[section]["title"].string
     }
     
-    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
-    }
-    
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell") ?? UITableViewCell.init(style: .subtitle, reuseIdentifier: "UITableViewCell")
 
@@ -116,8 +108,9 @@ extension YZInterviewViewController {
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+    public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        super.tableView(tableView, didSelectRowAt: indexPath)
+
         let url = datas[indexPath.section]["items"].arrayValue[indexPath.row]["url"].string ?? ""
         showWebPage(url: url)
     }
