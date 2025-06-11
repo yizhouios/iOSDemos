@@ -1,5 +1,5 @@
 //
-//  MainThread.h
+//  Demo1_MainThread.h
 //  iOSDemos_Swift
 //
 //  Created by yizhou on 2025/6/10.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainThread : NSObject <NSMachPortDelegate>
+@interface Demo1_MainThread : NSObject <NSMachPortDelegate>
 
 @property (nonatomic, strong) NSMachPort *mainPort;
 @property (nonatomic, strong) NSMachPort *workerPort;

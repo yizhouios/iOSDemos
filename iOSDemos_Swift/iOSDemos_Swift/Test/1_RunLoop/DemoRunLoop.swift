@@ -9,7 +9,7 @@ import UIKit
 
 class DemoRunLoop : YZBaseTableViewController {
     var datas: [DemoRunLoopCellModel] = []
-    var mt = MainThread.init()
+    var mt = Demo1_MainThread.init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +23,9 @@ class DemoRunLoop : YZBaseTableViewController {
         datas = [
             DemoRunLoopCellModel.init(title: "配置一个基于端口的输入源", clickBlock: { [weak self] in
                 self?.demo1()
+            }),
+            DemoRunLoopCellModel.init(title: "定义一个自定义输入源", clickBlock: { [weak self] in
+                self?.demo2()
             })
         ]
     }
@@ -69,5 +72,12 @@ extension DemoRunLoop {
     func demo1() {
         mt.sendMessage(toWorker: "这是主线程发消息的第\(count)次")
         count += 1
+    }
+}
+
+// MARK: - Demo2
+extension DemoRunLoop {
+    func demo2() {
+        
     }
 }

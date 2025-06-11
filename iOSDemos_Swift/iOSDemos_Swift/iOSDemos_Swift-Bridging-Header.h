@@ -3,4 +3,4 @@
 //
 
 #import "TestKVOObject.h"
-#import "MainThread.h"
+#import "Demo1_MainThread.h"

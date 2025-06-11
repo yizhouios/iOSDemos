@@ -1,13 +1,13 @@
 //
-//  WorkerThread.m
+//  Demo1_WorkerThread.m
 //  iOSDemos_Swift
 //
 //  Created by yizhou on 2025/6/10.
 //
 
-#import "WorkerThread.h"
+#import "Demo1_WorkerThread.h"
 
-@implementation WorkerThread
+@implementation Demo1_WorkerThread
 
 - (instancetype)initWithRemotePort:(NSMachPort *)remotePort {
     self = [super init];

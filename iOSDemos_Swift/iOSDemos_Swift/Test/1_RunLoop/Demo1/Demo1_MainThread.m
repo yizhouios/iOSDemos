@@ -1,20 +1,20 @@
 //
-//  MainThread.m
+//  Demo1_MainThread.m
 //  iOSDemos_Swift
 //
 //  Created by yizhou on 2025/6/10.
 //
 
-#import "MainThread.h"
-#import "WorkerThread.h"
+#import "Demo1_MainThread.h"
+#import "Demo1_WorkerThread.h"
 
-@interface MainThread ()
+@interface Demo1_MainThread ()
 
 @property (nonatomic, strong) NSThread *workerThread;
 
 @end
 
-@implementation MainThread
+@implementation Demo1_MainThread
 
 - (void)launchWorkerThread {
     // 创建主线程端口
@@ -28,7 +28,7 @@
     [NSThread detachNewThreadWithBlock:^{
         @autoreleasepool {
             // 创建工作线程实例
-            WorkerThread *worker = [[WorkerThread alloc] initWithRemotePort:self.mainPort];
+            Demo1_WorkerThread *worker = [[Demo1_WorkerThread alloc] initWithRemotePort:self.mainPort];
             
             // 发送初始消息
             [worker sendCheckin];

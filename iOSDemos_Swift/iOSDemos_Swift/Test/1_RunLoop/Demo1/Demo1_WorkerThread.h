@@ -1,5 +1,5 @@
 //
-//  WorkerThread.h
+//  Demo1_WorkerThread.h
 //  iOSDemos_Swift
 //
 //  Created by yizhou on 2025/6/10.
@@ -16,7 +16,7 @@ typedef NS_ENUM(NSUInteger, ThreadMessageID) {
 };
 
 // 工作线程类
-@interface WorkerThread : NSObject <NSMachPortDelegate>
+@interface Demo1_WorkerThread : NSObject <NSMachPortDelegate>
 
 @property (nonatomic, strong) NSMachPort *localPort;
 @property (nonatomic, strong) NSMachPort *remotePort; // 使用 strong 替代 weak
