@@ -9,14 +9,10 @@ import UIKit
 
 class DemoRunLoop : YZBaseTableViewController {
     var datas: [DemoRunLoopCellModel] = []
-    var mt = Demo1_MainThread.init()
+    var mt: Demo1_MainThread!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        autoreleasepool {
-            mt.launchWorkerThread()
-        }
         
         demo()
         
@@ -28,6 +24,8 @@ class DemoRunLoop : YZBaseTableViewController {
                 self?.demo2()
             })
         ]
+        
+        prepareDemo1()
     }
 }
 
@@ -69,6 +67,13 @@ struct DemoRunLoopCellModel {
 
 var count = 1
 extension DemoRunLoop {
+    func prepareDemo1() {
+        mt = Demo1_MainThread.init()
+        autoreleasepool {
+            mt.launchWorkerThread()
+        }
+    }
+    
     func demo1() {
         mt.sendMessage(toWorker: "这是主线程发消息的第\(count)次")
         count += 1
@@ -78,6 +83,16 @@ extension DemoRunLoop {
 // MARK: - Demo2
 extension DemoRunLoop {
     func demo2() {
+        let d2 = RunLoopDemo2.init()
+        d2?.start()
         
+        for i in 1...5 {
+            let command = "Task \(i)"
+            d2?.sendCommand(1, withData: command)
+
+            Thread.sleep(forTimeInterval: 0.3)
+        }
+
+        d2?.stop()
     }
 }
