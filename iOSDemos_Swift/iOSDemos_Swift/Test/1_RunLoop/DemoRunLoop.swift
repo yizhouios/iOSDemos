@@ -45,6 +45,12 @@ class DemoRunLoop : YZBaseTableViewController {
             DemoRunLoopCellModel.init(title: "Cocoa Perform Selector Sources（子线程未开启RunLoop）", clickBlock: { [weak self] in
                 self?.demo4()
             }),
+            DemoRunLoopCellModel.init(title: "配置定时器源（\(RunLoop.Mode.default.rawValue)）", clickBlock: { [weak self] in
+                self?.demo5()
+            }),
+            DemoRunLoopCellModel.init(title: "配置定时器源（\(RunLoop.Mode.common.rawValue)）", clickBlock: { [weak self] in
+                self?.demo6()
+            }),
         ]
         
         prepareDemo1()
@@ -184,5 +190,41 @@ extension DemoRunLoop {
     
     func demo4() {
         self.perform(#selector(DemoRunLoop.logThread_demo4(task:)), on: threadForDemo4, with: "任务1", waitUntilDone: false)
+    }
+}
+
+// MARK: - Demo5
+var timer1: Timer!
+var timer1Count = 0
+extension DemoRunLoop {
+    func demo5() {
+        let future = Date.init(timeIntervalSinceNow: 1)
+        timer1 = Timer.init(fire: future, interval: 1, repeats: true, block: { timer in
+            print("Timer1 定时器执行任务. \(timer1Count)")
+            timer1Count += 1
+            
+            if timer1Count == 10 {
+                timer.invalidate()
+            }
+        })
+        RunLoop.current.add(timer1, forMode: .default)
+    }
+}
+
+// MARK: - Demo6
+var timer2: Timer!
+var timer2Count = 0
+extension DemoRunLoop {
+    func demo6() {
+        let future = Date.init(timeIntervalSinceNow: 1)
+        timer2 = Timer.init(fire: future, interval: 1, repeats: true, block: { timer in
+            print("Timer2 定时器执行任务. \(timer2Count)")
+            timer2Count += 1
+            
+            if timer2Count == 10 {
+                timer.invalidate()
+            }
+        })
+        RunLoop.current.add(timer2, forMode: .common)
     }
 }
