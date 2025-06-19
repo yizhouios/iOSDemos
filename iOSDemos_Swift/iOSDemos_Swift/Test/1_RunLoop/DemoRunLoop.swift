@@ -10,6 +10,22 @@ import UIKit
 class DemoRunLoop : YZBaseTableViewController {
     var datas: [DemoRunLoopCellModel] = []
     var mt: Demo1_MainThread!
+    // demo3
+    var demo3TaskId = 1
+    var threadForDemo3 = {
+        let thread = Thread.init {
+            let port = NSMachPort.init()
+            RunLoop.current.add(port, forMode: .default)
+            RunLoop.current.run()
+        }
+        return thread
+    }()
+    
+    // demo4
+    var threadForDemo4 = {
+        let thread = Thread.init()
+        return thread
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,15 +33,23 @@ class DemoRunLoop : YZBaseTableViewController {
         demo()
         
         datas = [
-            DemoRunLoopCellModel.init(title: "配置一个基于端口的输入源", clickBlock: { [weak self] in
+            DemoRunLoopCellModel.init(title: "配置一个基于端口的输入源（Port-Based Sources）", clickBlock: { [weak self] in
                 self?.demo1()
             }),
-            DemoRunLoopCellModel.init(title: "定义一个自定义输入源", clickBlock: { [weak self] in
+            DemoRunLoopCellModel.init(title: "定义一个自定义输入源（Custom Input Sources）", clickBlock: { [weak self] in
                 self?.demo2()
-            })
+            }),
+            DemoRunLoopCellModel.init(title: "Cocoa Perform Selector Sources（子线程开启RunLoop）", clickBlock: { [weak self] in
+                self?.demo3()
+            }),
+            DemoRunLoopCellModel.init(title: "Cocoa Perform Selector Sources（子线程未开启RunLoop）", clickBlock: { [weak self] in
+                self?.demo4()
+            }),
         ]
         
         prepareDemo1()
+        prepareDemo3()
+        prepareDemo4()
     }
 }
 
@@ -94,5 +118,71 @@ extension DemoRunLoop {
         }
 
         d2?.stop()
+    }
+}
+
+// MARK: - Demo3
+extension DemoRunLoop {
+    func prepareDemo3() {
+        threadForDemo3.start()
+    }
+    
+    @objc func logThread(task: String) {
+        print("当前在子线程执行任务：\(task). \(Thread.current)")
+    }
+        
+    func demo3() {
+        self.perform(#selector(DemoRunLoop.logThread(task:)), on: threadForDemo3, with: "default模式下任务 \(demo3TaskId)", waitUntilDone: false)
+        
+        self.perform(#selector(DemoRunLoop.logThread(task:)), on: threadForDemo3, with: "tracking模式下的任务 \(demo3TaskId)", waitUntilDone: false, modes: [RunLoop.Mode.tracking.rawValue])
+        
+        demo3TaskId += 1
+        
+        // 延迟3秒后将threadForDemo3切换为tracking模式
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.switchToTrackingMode()
+        }
+    }
+    
+    // 切换到Tracking模式
+    func switchToTrackingMode() {
+        guard threadForDemo3.isExecuting else { return }
+        
+        DispatchQueue.global().async {
+            // 确保在工作线程上执行模式切换
+            self.perform(#selector(self.setTrackingMode), on: self.threadForDemo3, with: nil, waitUntilDone: false)
+        }
+    }
+    
+    @objc func setTrackingMode() {
+        // 记录模式切换
+        NSLog("切换RunLoop模式: 从 default 切换到 tracking")
+        
+        // 停止当前RunLoop
+        CFRunLoopStop(CFRunLoopGetCurrent())
+        
+        // 立即在新的模式下重启RunLoop
+        /// 正确转换为CFString并赋值给CFRunLoopMode
+        let trackingMode: CFRunLoopMode = unsafeBitCast(
+            RunLoop.Mode.tracking,
+            to: CFRunLoopMode.self
+        )
+        // 切换到Tracking模式并运行RunLoop
+        CFRunLoopRunInMode(trackingMode, 1.0, false)
+    }
+}
+
+// MARK: - Demo4
+extension DemoRunLoop {
+    func prepareDemo4() {
+        threadForDemo4.start()
+    }
+    
+    @objc func logThread_demo4(task: String) {
+        print("当前在子线程执行任务：\(task). \(Thread.current)")
+    }
+    
+    func demo4() {
+        self.perform(#selector(DemoRunLoop.logThread_demo4(task:)), on: threadForDemo4, with: "任务1", waitUntilDone: false)
     }
 }
