@@ -34,7 +34,7 @@ extension YZDemosViewController {
             ],
             [
                 "title": "iOS响应链",
-                "className": NSStringFromClass(Demo2UIResponderVc.self)
+                "className": NSStringFromClass(DemoResponderChainVc.self)
             ]
         ]
     }
