@@ -18,6 +18,10 @@ class YZArciticlesViewController: YZBaseTableViewController {
             [
                 "title": "RunLoop",
                 "items": RunLoop()
+            ],
+            [
+                "title": "iOS 响应链",
+                "items": ResponderChain()
             ]
         ]
         
@@ -108,3 +112,37 @@ extension YZArciticlesViewController {
         ]
     }
 }
+
+extension YZArciticlesViewController {
+    func ResponderChain() -> [JSON] {
+        return [
+            [
+                "title": "[官方文档] Touches, presses, and gestures",
+                "url": "https://developer.apple.com/documentation/uikit/touches-presses-and-gestures"
+            ],
+            [
+                "title": "[官方文档] Using responders and the responder chain to handle events",
+                "url": "https://developer.apple.com/documentation/uikit/using-responders-and-the-responder-chain-to-handle-events"
+            ],
+            [
+                "title": "[官方文档] Handling UIKit gestures",
+                "url": "https://developer.apple.com/documentation/uikit/handling-uikit-gestures"
+            ],
+            [
+                "title": "[掘金] iOS | 事件传递及响应链",
+                "url": "https://juejin.cn/post/6894518925514997767#heading"
+            ],
+            [
+                "title": "[掘金] iOS | 响应链及手势识别",
+                "url": "https://juejin.cn/post/6905914367171100680"
+            ],
+            [
+                "title": "[segmentfault] iOS响应者链彻底掌握",
+                "url": "https://segmentfault.com/a/1190000015060603"
+            ]
+        ]
+    }
+}
+
+// MARK: - Responder Chain
+
