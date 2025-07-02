@@ -30,7 +30,7 @@ class DemoRunLoop : YZBaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        demo()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "更多", style: .plain, target: self, action: #selector(more))
         
         datas = [
             DemoRunLoopCellModel.init(title: "配置一个基于端口的输入源（Port-Based Sources）", clickBlock: { [weak self] in
@@ -51,19 +51,24 @@ class DemoRunLoop : YZBaseTableViewController {
             DemoRunLoopCellModel.init(title: "配置定时器源（\(RunLoop.Mode.common.rawValue)）", clickBlock: { [weak self] in
                 self?.demo6()
             }),
+            DemoRunLoopCellModel.init(title: "RunLoop观察者", clickBlock: { [weak self] in
+                self?.demo7()
+            }),
         ]
         
         prepareDemo1()
         prepareDemo3()
         prepareDemo4()
     }
-}
-
-// MARK: - Demo测试
-extension DemoRunLoop {
-    func demo() {
-//        let mainRunloop: RunLoop = RunLoop.current
-//        print(mainRunloop)
+    
+    @objc func more() {
+        let items = ["选项1", "选项2", "选项3", "选项4", "选项5", "选项6"]
+                
+        let popup = ListPopupView(title: "请选择", items: items)
+        popup.onItemSelected { index, item in
+            print("选中项: \(index) - \(item)")
+        }
+        popup.show(in: self)
     }
 }
 
@@ -226,5 +231,13 @@ extension DemoRunLoop {
             }
         })
         RunLoop.current.add(timer2, forMode: .common)
+    }
+}
+
+// MARK: - Demo7
+extension DemoRunLoop {
+    func demo7() {
+        let demoVc = RunLoopObserverViewController()
+        navigationController?.pushViewController(demoVc, animated: true)
     }
 }
