@@ -18,5 +18,8 @@ target 'iOSDemos_Swift' do
   # 导航控制器转场效果
 #  pod 'FDFullscreenPopGesture', '~> 1.1' # https://github.com/forkingdog/FDFullscreenPopGesture
 #  pod 'GKNavigationBarSwift', '~> 1.6.7' # https://github.com/QuintGao/GKNavigationBarSwift
+
+  # PromiseKit
+  pod 'PromiseKit'
   
 end

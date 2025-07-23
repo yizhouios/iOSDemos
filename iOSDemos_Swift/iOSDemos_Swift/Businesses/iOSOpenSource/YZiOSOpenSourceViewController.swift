@@ -1,5 +1,5 @@
 //
-//  YZAlgorithmViewController.swift
+//  YZiOSOpenSourceViewController.swift
 //  iOSDemos_Swift
 //
 //  Created by yizhou on 2025/3/27.
@@ -8,15 +8,15 @@
 import SnapKit
 import SwiftyJSON
 
-class YZAlgorithmViewController: YZBaseTableViewController {
+class YZiOSOpenSourceViewController: YZBaseTableViewController {
     
     let datas: JSON = [
         [
             "items": [
                 [
-                    "title": "LeetCode-Solutions-in-Swift",
-                    "subTitle": "https://github.com/diwu/LeetCode-Solutions-in-Swift",
-                    "url": "https://github.com/diwu/LeetCode-Solutions-in-Swift",
+                    "title": "PromiseKit",
+//                    "subTitle": "https://github.com/diwu/LeetCode-Solutions-in-Swift",
+                    "url": "https://github.com/mxcl/PromiseKit",
                 ]
             ]
         ]
@@ -25,7 +25,7 @@ class YZAlgorithmViewController: YZBaseTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "算法"
+        title = "开源库"
     }
     
     override func setupUI() {
@@ -51,7 +51,7 @@ class YZAlgorithmViewController: YZBaseTableViewController {
 }
 
 // MARK: - UITableViewDataSource
-extension YZAlgorithmViewController {
+extension YZiOSOpenSourceViewController {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return datas.count
     }
