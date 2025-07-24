@@ -7,41 +7,51 @@
 // 条件锁（NSCondition）保活子线程
 // 条件锁是让线程处于闲等状态，当有任务时唤醒线程执行任务
 
-import Foundation
+import UIKit
 
 class LongLivedThread3 {
-    var thread: Thread!
-    var condition: NSCondition!
-    var customTask: (() -> (Void))?
-    var isExitThred = false
+    private var thread: Thread!
+    private var isRunning = true
+    // 用于线程等待/唤醒的条件锁
+    private let condition = NSCondition()
+    
+    var customTask: (() -> ())?
     
     init() {
-        condition = NSCondition.init()
-        thread = Thread(target: self, selector: #selector(threadMain), object: nil)
-        thread.name = "LongLivedThread3-RunLoop"
+        thread = Thread { [weak self] in
+            guard let self = self else { return }
+            print("子线程启动（条件等待方案），线程：\(Thread.current.name ?? "未知")")
+            
+            while self.isRunning {
+                // 加锁并等待信号
+                self.condition.lock()
+                // 无任务时等待（会释放CPU）
+                self.condition.wait()
+                self.condition.unlock()
+                
+                // 被唤醒后执行任务
+//                print("执行任务（线程存活中）")
+                if (self.customTask != nil) {
+                    self.customTask!()
+                }
+            }
+            
+            print("子线程已退出")
+        }
+        thread.name = "LongLived-Condition"
         thread.start()
     }
     
-    @objc private func threadMain() {
-        // 让子线程进入闲等状态
-        autoreleasepool {
-            repeat {
-                condition.lock()
-                if (self.customTask != nil) {
-                    self.customTask!()
-                    self.customTask = nil
-                }
-                condition.wait()
-                condition.unlock()
-            } while (!isExitThred)
-        }
+    // 唤醒线程执行任务
+    func triggerTask() {
+        condition.lock()
+        condition.signal() // 发送信号唤醒线程
+        condition.unlock()
     }
     
-    func doTask() {
-        thread.perform(#selector(signal), on: thread, with: nil, waitUntilDone: false)
-    }
-    
-    @objc private func signal() {
-        condition.signal()
+    // 停止线程
+    func stop() {
+        isRunning = false
+        triggerTask() // 唤醒线程使其退出循环
     }
 }

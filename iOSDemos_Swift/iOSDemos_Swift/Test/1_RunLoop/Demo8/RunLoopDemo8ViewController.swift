@@ -16,7 +16,7 @@ class RunLoopDemo8ViewController : YZBaseTableViewController {
     var items = [
         "启动子线程的 RunLoop \n（通过启动子线程的 RunLoop 并添加自定义事件源，让线程在有任务时工作、无任务时休眠。）",
         "启动子线程的 RunLoop \n（通过启动子线程的 RunLoop 并添加NSMachPort事件源，让线程在有任务时工作、无任务时休眠。）",
-//        "条件锁（NSCondition）保活子线程（条件锁是让线程处于闲等状态，当有任务时唤醒线程执行任务）"
+        "条件锁（NSCondition）保活子线程（条件锁是让线程处于闲等状态，当有任务时唤醒线程执行任务）"
     ]
     
     override func viewDidLoad() {
@@ -89,6 +89,6 @@ extension RunLoopDemo8ViewController {
         self.thread3.customTask = { [weak self] in
             self?.doTask3()
         }
-        self.thread3.doTask()
+        self.thread3.triggerTask()
     }
 }
