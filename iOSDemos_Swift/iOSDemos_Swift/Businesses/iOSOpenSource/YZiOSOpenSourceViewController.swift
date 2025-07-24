@@ -88,7 +88,10 @@ extension YZiOSOpenSourceViewController {
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
         
-        let url = datas[indexPath.section]["items"].arrayValue[indexPath.row]["url"].string ?? ""
-        showWebPage(url: url)
+        let index = indexPath.row
+        
+        if index == 0 {
+            navigationController?.pushViewController(Demo1PromiseKitVC.init(), animated: true)
+        }
     }
 }

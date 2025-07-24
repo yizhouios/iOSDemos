@@ -54,6 +54,9 @@ class DemoRunLoop : YZBaseTableViewController {
             DemoRunLoopCellModel.init(title: "RunLoop观察者", clickBlock: { [weak self] in
                 self?.demo7()
             }),
+            DemoRunLoopCellModel.init(title: "线程保活方案", clickBlock: { [weak self] in
+                self?.demo8()
+            }),
         ]
         
         prepareDemo1()
@@ -238,6 +241,14 @@ extension DemoRunLoop {
 extension DemoRunLoop {
     func demo7() {
         let demoVc = RunLoopObserverViewController()
+        navigationController?.pushViewController(demoVc, animated: true)
+    }
+}
+
+// MARK: - Demo8
+extension DemoRunLoop {
+    func demo8() {
+        let demoVc = RunLoopDemo8ViewController()
         navigationController?.pushViewController(demoVc, animated: true)
     }
 }
