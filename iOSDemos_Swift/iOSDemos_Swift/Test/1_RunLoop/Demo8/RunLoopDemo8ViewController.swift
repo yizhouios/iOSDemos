@@ -12,11 +12,13 @@ class RunLoopDemo8ViewController : YZBaseTableViewController {
     var thread1 = LongLivedThread1()
     var thread2 = LongLivedThread2()
     var thread3 = LongLivedThread3()
+    var thread4 = LongLivedThread4()
     
     var items = [
         "启动子线程的 RunLoop \n（通过启动子线程的 RunLoop 并添加自定义事件源，让线程在有任务时工作、无任务时休眠。）",
         "启动子线程的 RunLoop \n（通过启动子线程的 RunLoop 并添加NSMachPort事件源，让线程在有任务时工作、无任务时休眠。）",
-        "条件锁（NSCondition）保活子线程（条件锁是让线程处于闲等状态，当有任务时唤醒线程执行任务）"
+        "无限循环+条件锁（NSCondition）保活子线程（条件锁是让线程处于闲等状态，当有任务时唤醒线程执行任务）",
+        "GCD 信号量 + 无限循环（使用DispatchSemaphore让线程在队列中阻塞等待，有任务时唤醒）"
     ]
     
     override func viewDidLoad() {
@@ -53,6 +55,8 @@ extension RunLoopDemo8ViewController {
             performTaskOnThread2()
         } else if (index == 2) {
             performTaskOnThread3()
+        } else if (index == 3) {
+            performTaskOnThread4()
         }
     }
 }
@@ -90,5 +94,19 @@ extension RunLoopDemo8ViewController {
             self?.doTask3()
         }
         self.thread3.triggerTask()
+    }
+}
+
+// MARK: -
+extension RunLoopDemo8ViewController {
+    @objc func doTask4() {
+        print("\(Thread.current) doTask4")
+    }
+    
+    func performTaskOnThread4() {
+        self.thread4.customTask = { [weak self] in
+            self?.doTask4()
+        }
+        self.thread4.triggerTask()
     }
 }

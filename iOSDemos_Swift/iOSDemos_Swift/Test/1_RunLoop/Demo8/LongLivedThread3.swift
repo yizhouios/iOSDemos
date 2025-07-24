@@ -1,5 +1,5 @@
 //
-//  LongLivedThread.swift
+//  LongLivedThread3.swift
 //  iOSDemos_Swift
 //
 //  Created by yizhou on 2025/7/23.
@@ -38,7 +38,7 @@ class LongLivedThread3 {
             
             print("子线程已退出")
         }
-        thread.name = "LongLived-Condition"
+        thread.name = "LongLivedThread3-RunLoop"
         thread.start()
     }
     
