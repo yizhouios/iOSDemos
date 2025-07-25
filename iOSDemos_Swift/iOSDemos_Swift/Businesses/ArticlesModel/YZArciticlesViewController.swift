@@ -22,6 +22,14 @@ class YZArciticlesViewController: YZBaseTableViewController {
             [
                 "title": "iOS 响应链",
                 "items": ResponderChain()
+            ],
+            [
+                "title": "Timers",
+                "items": Timers()
+            ],
+            [
+                "title": "其它",
+                "items": Others()
             ]
         ]
         
@@ -113,6 +121,7 @@ extension YZArciticlesViewController {
     }
 }
 
+// MARK: - Responder Chain
 extension YZArciticlesViewController {
     func ResponderChain() -> [JSON] {
         return [
@@ -144,5 +153,27 @@ extension YZArciticlesViewController {
     }
 }
 
-// MARK: - Responder Chain
+// MARK: - Timers
+extension YZArciticlesViewController {
+    func Timers() -> [JSON] {
+        return [
+            [
+                "title": "从RunLoop源码探索NSTimer的实现原理",
+                "url": "https://juejin.cn/post/6844903494952943629"
+            ]
+        ]
+    }
+}
+
+// MARK: - 其它
+extension YZArciticlesViewController {
+    func Others() -> [JSON] {
+        return [
+            [
+                "title": "掘金上值得关注的 iOS 开发者",
+                "url": "https://juejin.cn/post/6844903524812193805"
+            ]
+        ]
+    }
+}
 
