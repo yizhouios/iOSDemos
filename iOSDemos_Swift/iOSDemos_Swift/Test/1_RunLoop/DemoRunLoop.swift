@@ -27,6 +27,14 @@ class DemoRunLoop : YZBaseTableViewController {
         return thread
     }()
     
+    // demo9
+    var timerForDemo9: Timer?
+    
+    deinit {
+        timerForDemo9?.invalidate()
+        timerForDemo9 = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +64,12 @@ class DemoRunLoop : YZBaseTableViewController {
             }),
             DemoRunLoopCellModel.init(title: "线程保活方案", clickBlock: { [weak self] in
                 self?.demo8()
+            }),
+            DemoRunLoopCellModel.init(title: "NSTimer(由于RunLoop较忙，不准的情况)", clickBlock: { [weak self] in
+                self?.demo9()
+            }),
+            DemoRunLoopCellModel.init(title: "NSTimer(由于RunLoop较忙，而丢失回调的情况)", clickBlock: { [weak self] in
+                self?.demo10()
             }),
         ]
         
@@ -250,5 +264,72 @@ extension DemoRunLoop {
     func demo8() {
         let demoVc = RunLoopDemo8ViewController()
         navigationController?.pushViewController(demoVc, animated: true)
+    }
+}
+
+// MARK: - Demo9
+extension DemoRunLoop {
+    // NSTimer(由于RunLoop较忙，不准的情况)
+    /*
+         NSTimer开始: 0.0000000
+         before busy 4.200407028198242
+         after busy 5.70176899433136
+         NSTimer fire: 5.701907992362976
+         NSTimer fire: 10.00194799900055
+         NSTimer fire: 15.49971604347229
+         NSTimer fire: 20.500756978988647
+         NSTimer fire: 25.50046193599701
+         NSTimer fire: 30.500391960144043
+     */
+    func demo9() {
+        let refTime = CFAbsoluteTimeGetCurrent()
+        print("NSTimer开始: 0.0000000")
+        timerForDemo9 = Timer.init(timeInterval: 5, repeats: true) { timer in
+            print("NSTimer fire: \(CFAbsoluteTimeGetCurrent() - refTime)")
+        }
+        timerForDemo9!.tolerance = 0.5
+        RunLoop.current.add(timerForDemo9!, forMode: .default)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            print("before busy \(CFAbsoluteTimeGetCurrent() - refTime)")
+            var j = 0
+            for i in 0...10000000 {
+                j = i * 3
+            }
+            print("after busy \(CFAbsoluteTimeGetCurrent() - refTime)")
+        }
+    }
+}
+
+// MARK: - Demo10
+extension DemoRunLoop {
+    // 由于RunLoop较忙，而丢失回调的情况
+    /*
+         NSTimer开始: 0.0000000
+         before busy 4.195487022399902
+         after busy 18.856470942497253
+         NSTimer fire: 18.856953024864197
+         NSTimer fire: 20.496943950653076
+         NSTimer fire: 25.49696695804596
+         NSTimer fire: 30.498687982559204
+         NSTimer fire: 35.4974559545517
+     */
+    func demo10() {
+        let refTime = CFAbsoluteTimeGetCurrent()
+        print("NSTimer开始: 0.0000000")
+        timerForDemo9 = Timer.init(timeInterval: 5, repeats: true) { timer in
+            print("NSTimer fire: \(CFAbsoluteTimeGetCurrent() - refTime)")
+        }
+        timerForDemo9!.tolerance = 0.5
+        RunLoop.current.add(timerForDemo9!, forMode: .default)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            print("before busy \(CFAbsoluteTimeGetCurrent() - refTime)")
+            var j = 0
+            for i in 0...100000000 {
+                j = i * 3
+            }
+            print("after busy \(CFAbsoluteTimeGetCurrent() - refTime)")
+        }
     }
 }
