@@ -339,87 +339,9 @@ extension DemoRunLoop {
 
 // MARK: - Demo11
 extension DemoRunLoop {
-    // 测试不使用autoreleasepool的情况
-        func demo11_testWithoutAutoreleasePool() {
-            print("开始测试：不使用autoreleasepool")
-            let startMemory = demo11_getUsedMemory()
-            print("初始内存使用: \(startMemory) MB")
-            
-            let startTime = CFAbsoluteTimeGetCurrent()
-            
-            // 循环创建大量临时对象
-            for i in 0..<1000000 {
-                // 创建字符串和数组等临时对象
-                let string = "临时字符串 \(i) 重复内容用来增加内存占用 ".appending(String(repeating: "x", count: 1000))
-                let array = [string, String(i), "额外的字符串内容"]
-                _ = array.joined(separator: "|")
-            }
-            
-            let endTime = CFAbsoluteTimeGetCurrent()
-            let endMemory = demo11_getUsedMemory()
-            
-            print("完成测试：不使用autoreleasepool")
-            print("结束内存使用: \(endMemory) MB")
-            print("内存变化: \(endMemory - startMemory) MB")
-            print("耗时: \(endTime - startTime) 秒\n")
-        }
-        
-        // 测试使用autoreleasepool的情况
-        func demo11_testWithAutoreleasePool() {
-            print("开始测试：使用autoreleasepool")
-            let startMemory = demo11_getUsedMemory()
-            print("初始内存使用: \(startMemory) MB")
-            
-            let startTime = CFAbsoluteTimeGetCurrent()
-            
-            // 循环创建大量临时对象，但在每次循环中使用autoreleasepool
-            for i in 0..<1000000 {
-                autoreleasepool {
-                    // 创建字符串和数组等临时对象
-                    let string = "临时字符串 \(i) 重复内容用来增加内存占用 ".appending(String(repeating: "x", count: 1000))
-                    let array = [string, String(i), "额外的字符串内容"]
-                    _ = array.joined(separator: "|")
-                }
-            }
-            
-            let endTime = CFAbsoluteTimeGetCurrent()
-            let endMemory = demo11_getUsedMemory()
-            
-            print("完成测试：使用autoreleasepool")
-            print("结束内存使用: \(endMemory) MB")
-            print("内存变化: \(endMemory - startMemory) MB")
-            print("耗时: \(endTime - startTime) 秒\n")
-        }
-        
-        // 获取当前应用的内存使用情况（MB）
-        func demo11_getUsedMemory() -> Double {
-            var info = mach_task_basic_info()
-            var count = mach_msg_type_number_t(MemoryLayout<mach_task_basic_info>.size)/4
-            
-            let kerr = withUnsafeMutablePointer(to: &info) {
-                $0.withMemoryRebound(to: integer_t.self, capacity: 1) {
-                    task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
-                }
-            }
-            
-            if kerr == KERN_SUCCESS {
-                return Double(info.resident_size) / 1024 / 1024
-            } else {
-                return -1
-            }
-        }
-        
-        // 运行所有测试
-        func demo11_runAllTests() {
-            // 正式测试
-            demo11_testWithoutAutoreleasePool()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                self.demo11_testWithAutoreleasePool()
-            }
-        }
-    
     func demo11() {
-        demo11_runAllTests()
+        let demoVc = RunLoopDemo11ViewController()
+        navigationController?.pushViewController(demoVc, animated: true)
     }
 }
 

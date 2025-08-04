@@ -116,7 +116,19 @@ extension YZArciticlesViewController {
             [
                 "title": "CFRunLoop (ming1016)",
                 "url": "https://github.com/ming1016/study/wiki/CFRunLoop"
-            ]
+            ],
+            [
+                "title": "AutoreleasePool：iOS 内存管理乐章中的隐秘旋律",
+                "url": "https://juejin.cn/post/7487050938915815434"
+            ],
+            [
+                "title": "探秘AutoreleasePool实现原理",
+                "url": "https://juejin.cn/post/7141285896250195982"
+            ],
+            [
+                "title": "iOS autoreleasePool原理总结",
+                "url": "https://juejin.cn/post/6937859162067959838"
+            ],
         ]
     }
 }
