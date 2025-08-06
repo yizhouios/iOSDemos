@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import KMCGeigerCounter
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("didFinishLaunchingWithOptions")
         
         didInitWindow()
+        
+        // 开启FPS监控
+        KMCGeigerCounter.shared().isEnabled = true
+        KMCGeigerCounter.shared().position = .middle
         
         test()
         

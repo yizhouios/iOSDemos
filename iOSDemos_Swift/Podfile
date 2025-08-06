@@ -22,4 +22,7 @@ target 'iOSDemos_Swift' do
   # PromiseKit
   pod 'PromiseKit'
   
+  # FPS 指示器：https://github.com/kconner/KMCGeigerCounter
+  pod 'KMCGeigerCounter', :git => "https://github.com/yizhouios/KMCGeigerCounter.git", :branch => "master"
+  
 end

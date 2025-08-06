@@ -35,6 +35,10 @@ extension YZDemosViewController {
             [
                 "title": "iOS响应链",
                 "className": NSStringFromClass(DemoResponderChainVc.self)
+            ],
+            [
+                "title": "离屏渲染",
+                "className": NSStringFromClass(Demo_3_OffScreenRenderVc.self)
             ]
         ]
     }

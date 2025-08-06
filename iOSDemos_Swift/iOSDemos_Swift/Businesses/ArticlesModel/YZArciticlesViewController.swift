@@ -160,6 +160,10 @@ extension YZArciticlesViewController {
             [
                 "title": "[segmentfault] iOS响应者链彻底掌握",
                 "url": "https://segmentfault.com/a/1190000015060603"
+            ],
+            [
+                "title": "iOS触摸事件全家桶",
+                "url": "https://juejin.cn/post/6844903493640290311"
             ]
         ]
     }
